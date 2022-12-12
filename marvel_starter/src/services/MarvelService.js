@@ -31,8 +31,8 @@ class MarvelServices {
 
   _transformCharacter = (char) => {
     const transformDescription = (des) => {
-      if (des.length === 0) {
-        return 'No character data';
+      if (!des.length) {
+        return 'Sorry, no character data';
       }
 
       if (des.length > 210) {
