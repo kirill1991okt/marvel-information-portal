@@ -36,8 +36,15 @@ class RandomChar extends React.Component {
     });
   };
 
+  onCharLoading = () => {
+    this.setState({
+      loading: true,
+    });
+  };
+
   getChar = () => {
     const idChar = Math.floor(Math.random() * (1011400 - 1011000) + 1011000);
+    this.onCharLoading();
     this.marvelService
       .getCharacter(idChar)
       .then(this.onCharLoaded)
