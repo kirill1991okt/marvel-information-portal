@@ -17,7 +17,6 @@ class CharList extends React.Component {
   }
 
   onAllCharLoaded = (dataChar) => {
-    console.log(dataChar);
     this.setState({ dataChar, loading: false });
   };
 
@@ -42,7 +41,11 @@ class CharList extends React.Component {
   charItems = (arrList) => {
     const elements = arrList.map(({ thumbnail, name, id }) => {
       return (
-        <li className="char__item" key={id}>
+        <li
+          className="char__item"
+          key={id}
+          onClick={() => this.props.updateIdChar(id)}
+        >
           <img src={thumbnail} alt="abyss" />
           <div className="char__name">{name}</div>
         </li>

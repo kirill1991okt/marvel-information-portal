@@ -31,12 +31,10 @@ class MarvelServices {
 
   _transformCharacter = (char) => {
     const transformDescription = (des) => {
-      if (!des.length) {
-        return 'Sorry, no character data';
-      }
-
-      if (des.length > 210) {
+      if (des) {
         return des.slice(0, 210) + '...';
+      } else {
+        return 'Sorry, no character data';
       }
     };
 
@@ -47,6 +45,7 @@ class MarvelServices {
       thumbnail: char.thumbnail.path + '.' + char.thumbnail.extension,
       homepage: char.urls[0].url,
       wiki: char.urls[1].url,
+      comics: char.comics.items,
     };
   };
 }
