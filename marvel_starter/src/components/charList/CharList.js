@@ -1,6 +1,6 @@
 import React from 'react';
 import MarvelServices from '../../services/MarvelService';
-import ErrorMessage from '../ErrorMessage/ErrorMessage';
+import ErrorMessage from '../errorMessage/ErrorMessage';
 import Spinner from '../spinner/Spinner';
 
 import './charList.scss';
