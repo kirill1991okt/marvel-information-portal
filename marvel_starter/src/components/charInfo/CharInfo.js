@@ -1,4 +1,5 @@
 import React from 'react';
+import PropTypes from 'prop-types';
 import MarvelServices from '../../services/MarvelService';
 import ErrorMessage from '../errorMessage/ErrorMessage';
 import Spinner from '../spinner/Spinner';
@@ -61,7 +62,7 @@ class CharInfo extends React.Component {
     const spinner = loading ? <Spinner /> : null;
     const content = !(!char || loading || error) ? <View char={char} /> : null;
     return (
-      <div className="char__info">
+      <div className='char__info'>
         {skeleton}
         {errorMessage}
         {spinner}
@@ -79,31 +80,31 @@ const View = ({ char }) => {
     .includes('image_not_available.jpg');
   return (
     <React.Fragment>
-      <div className="char__basics">
+      <div className='char__basics'>
         <img
           src={thumbnail}
           alt={name}
           style={incorrectImage ? { objectFit: 'fill' } : null}
         />
         <div>
-          <div className="char__info-name">{name}</div>
-          <div className="char__btns">
-            <a href={homepage} className="button button__main">
-              <div className="inner">homepage</div>
+          <div className='char__info-name'>{name}</div>
+          <div className='char__btns'>
+            <a href={homepage} className='button button__main'>
+              <div className='inner'>homepage</div>
             </a>
-            <a href={wiki} className="button button__secondary">
-              <div className="inner">Wiki</div>
+            <a href={wiki} className='button button__secondary'>
+              <div className='inner'>Wiki</div>
             </a>
           </div>
         </div>
       </div>
-      <div className="char__descr">{description}</div>
-      <div className="char__comics">Comics:</div>
-      <ul className="char__comics-list">
+      <div className='char__descr'>{description}</div>
+      <div className='char__comics'>Comics:</div>
+      <ul className='char__comics-list'>
         {comicsCutArr.length
           ? comicsCutArr.map((item, i) => {
               return (
-                <li className="char__comics-item" key={i}>
+                <li className='char__comics-item' key={i}>
                   {item.name}
                 </li>
               );
@@ -112,6 +113,10 @@ const View = ({ char }) => {
       </ul>
     </React.Fragment>
   );
+};
+
+CharInfo.propTypes = {
+  selectedChar: PropTypes.number,
 };
 
 export default CharInfo;

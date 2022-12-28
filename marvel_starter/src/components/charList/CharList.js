@@ -1,4 +1,5 @@
 import React from 'react';
+import PropTypes from 'prop-types';
 import MarvelServices from '../../services/MarvelService';
 import ErrorMessage from '../errorMessage/ErrorMessage';
 import Spinner from '../spinner/Spinner';
@@ -13,9 +14,10 @@ class CharList extends React.Component {
       loading: true,
       error: false,
       newItemLoading: false,
-      offset: 1498,
+      offset: 210,
       itemLoaded: false,
     };
+    this.itemRefs = [];
     this.marvelService = new MarvelServices();
   }
 
@@ -58,13 +60,36 @@ class CharList extends React.Component {
     });
   };
 
+  setClassOnSelectedChar = (elem) => {
+    this.itemRefs.push(elem);
+  };
+
+  addClass = (i) => {
+    this.itemRefs.forEach((item) => {
+      item.classList.remove('char__item_selected');
+    });
+    this.itemRefs[i].classList.add('char__item_selected');
+    this.itemRefs[i].focus();
+  };
+
   charItems = (arrList) => {
-    const elements = arrList.map(({ thumbnail, name, id }) => {
+    const elements = arrList.map(({ thumbnail, name, id }, i) => {
       return (
         <li
+          ref={this.setClassOnSelectedChar}
+          tabIndex={0}
           className='char__item'
           key={id}
-          onClick={() => this.props.updateIdChar(id)}
+          onClick={() => {
+            this.addClass(i);
+            this.props.updateIdChar(id);
+          }}
+          onKeyDown={(e) => {
+            if (e.key === ' ' || e.key === 'Enter') {
+              this.addClass(i);
+              this.props.updateIdChar(id);
+            }
+          }}
         >
           <img src={thumbnail} alt='abyss' />
           <div className='char__name'>{name}</div>
@@ -98,5 +123,9 @@ class CharList extends React.Component {
     );
   }
 }
+
+CharList.propTypes = {
+  updateIdChar: PropTypes.func.isRequired,
+};
 
 export default CharList;
