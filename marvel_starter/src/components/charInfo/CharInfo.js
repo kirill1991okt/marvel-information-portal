@@ -1,75 +1,45 @@
-import React from 'react';
+import { useState, useEffect } from 'react';
 import PropTypes from 'prop-types';
-import MarvelServices from '../../services/MarvelService';
+import useMarvelServices from '../../services/MarvelService';
 import ErrorMessage from '../errorMessage/ErrorMessage';
 import Spinner from '../spinner/Spinner';
 import Skeleton from '../skeleton/Skeleton';
 
 import './charInfo.scss';
 
-class CharInfo extends React.Component {
-  constructor(props) {
-    super(props);
-    this.state = {
-      char: null,
-      loading: false,
-      error: false,
-    };
-    this.marvelServices = new MarvelServices();
-  }
+function CharInfo(props) {
+  const [char, setChar] = useState(null);
 
-  componentDidMount = () => {
-    this.updateChar();
+  const { loading, error, getCharacter, clearError } = useMarvelServices();
+
+  useEffect(() => {
+    updateChar();
+  }, [props.selectedChar]);
+
+  const onCharLoaded = (char) => {
+    setChar(char);
   };
 
-  componentDidUpdate = (prevProps) => {
-    if (prevProps.selectedChar !== this.props.selectedChar) {
-      this.updateChar();
-    }
-  };
-
-  onCharLoaded = (char) => {
-    this.setState({ char, loading: false });
-  };
-
-  onError = () => {
-    this.setState({
-      loading: false,
-      error: true,
-    });
-  };
-
-  onCharLoading = () => {
-    this.setState({
-      loading: true,
-    });
-  };
-
-  updateChar = () => {
-    if (!this.props.selectedChar) {
+  const updateChar = () => {
+    if (!props.selectedChar) {
       return;
     }
-    this.onCharLoading();
-    this.marvelServices
-      .getCharacter(this.props.selectedChar)
-      .then(this.onCharLoaded)
-      .catch(this.onError);
+    clearError();
+    getCharacter(props.selectedChar).then(onCharLoaded);
   };
-  render() {
-    const { char, loading, error } = this.state;
-    const skeleton = char || loading || error ? null : <Skeleton />;
-    const errorMessage = error ? <ErrorMessage /> : null;
-    const spinner = loading ? <Spinner /> : null;
-    const content = !(!char || loading || error) ? <View char={char} /> : null;
-    return (
-      <div className='char__info'>
-        {skeleton}
-        {errorMessage}
-        {spinner}
-        {content}
-      </div>
-    );
-  }
+
+  const skeleton = char || loading || error ? null : <Skeleton />;
+  const errorMessage = error ? <ErrorMessage /> : null;
+  const spinner = loading ? <Spinner /> : null;
+  const content = !(!char || loading || error) ? <View char={char} /> : null;
+  return (
+    <div className='char__info'>
+      {skeleton}
+      {errorMessage}
+      {spinner}
+      {content}
+    </div>
+  );
 }
 
 const View = ({ char }) => {
@@ -79,7 +49,7 @@ const View = ({ char }) => {
     .split('/')
     .includes('image_not_available.jpg');
   return (
-    <React.Fragment>
+    <>
       <div className='char__basics'>
         <img
           src={thumbnail}
@@ -111,7 +81,7 @@ const View = ({ char }) => {
             })
           : 'There is not comics'}
       </ul>
-    </React.Fragment>
+    </>
   );
 };
 
