@@ -1,11 +1,10 @@
 import { useState, useEffect } from 'react';
+import AppBanner from '../appBanner/AppBanner';
 import useMarvelServices from '../../services/MarvelService';
 import ErrorMessage from '../errorMessage/ErrorMessage';
 import Spinner from '../spinner/Spinner';
 
 import './comicsList.scss';
-import avengers from '../../resources/img/Avengers.png';
-import logo from '../../resources/img/Avengers_logo.png';
 
 const ComicsList = () => {
   const [comics, setComics] = useState([]);
@@ -59,15 +58,11 @@ const ComicsList = () => {
   const sniper = loading && !newItemLoading ? <Spinner /> : null;
   const errorMessage = error ? <ErrorMessage /> : null;
 
+  // console.log('charList');
+
   return (
-    <div className='comics__main'>
-      <div className='comics__banner'>
-        <img src={avengers} alt='avengers' className='comics__banner-img' />
-        <p className='comics__banner-text'>
-          New comics every week! <br /> Stay tuned!
-        </p>
-        <img src={logo} alt='logo' className='comics__banner-logo' />
-      </div>
+    <>
+      <AppBanner />
       <div className='comics__list'>
         {sniper}
         {errorMessage}
@@ -81,7 +76,7 @@ const ComicsList = () => {
           <div className='inner'>load more</div>
         </button>
       </div>
-    </div>
+    </>
   );
 };
 
