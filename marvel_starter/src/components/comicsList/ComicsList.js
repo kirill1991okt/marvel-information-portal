@@ -1,4 +1,5 @@
 import { useState, useEffect } from 'react';
+import { Link } from 'react-router-dom';
 import AppBanner from '../appBanner/AppBanner';
 import useMarvelServices from '../../services/MarvelService';
 import ErrorMessage from '../errorMessage/ErrorMessage';
@@ -35,18 +36,14 @@ const ComicsList = () => {
   };
 
   const comicsItems = (dataComics) => {
-    const elements = dataComics.map(({ id, thumbnail, name, price }) => {
+    const elements = dataComics.map(({ id, thumbnail, name, price }, i) => {
       return (
-        <li className='comics__item' key={id}>
-          <a href='#'>
-            <img
-              src={thumbnail}
-              alt='ultimate war'
-              className='comics__item-img'
-            />
+        <li className='comics__item' key={i}>
+          <Link to={`${id}`}>
+            <img src={thumbnail} alt={name} className='comics__item-img' />
             <div className='comics__item-name'>{name}</div>
             <div className='comics__item-price'>{price}$</div>
-          </a>
+          </Link>
         </li>
       );
     });
@@ -57,8 +54,6 @@ const ComicsList = () => {
   const listItems = comicsItems(comics);
   const sniper = loading && !newItemLoading ? <Spinner /> : null;
   const errorMessage = error ? <ErrorMessage /> : null;
-
-  // console.log('charList');
 
   return (
     <>

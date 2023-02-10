@@ -8,7 +8,7 @@ const Page404 = () => {
     <div>
       <ErrorMessage />
       <p className='error-text'>Page dosen't exist</p>
-      <Link to={'./'} className='error-link'>
+      <Link to={'/'} className='error-link'>
         Go to maim page
       </Link>
     </div>
