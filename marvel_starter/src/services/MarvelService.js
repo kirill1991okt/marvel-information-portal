@@ -1,35 +1,52 @@
-class MarvelServices {
-  constructor() {
-    this._apiBase = 'https://gateway.marvel.com:443/v1/public/';
-    this._apiKey = 'apikey=d5d684a06d58da256b5a00a75e3c5ddf';
-  }
+import { useHttp } from '../hooks/http.hook';
 
-  getResource = async (url) => {
-    const response = await fetch(url);
+const useMarvelServices = () => {
+  const { loading, error, request, clearError } = useHttp();
 
-    if (!response.ok) {
-      throw new Error(`Could not fetch ${url}, status: ${response.status}`);
-    }
+  const _apiBase = 'https://gateway.marvel.com:443/v1/public/';
+  const _apiKey = 'apikey=d5d684a06d58da256b5a00a75e3c5ddf';
+  const _offset = '210';
 
-    return await response.json();
-  };
-
-  getAllCharacters = async () => {
-    const res = await this.getResource(
-      `${this._apiBase}characters?limit=9&offset=210&${this._apiKey}`
+  const getAllCharacters = async (offset = _offset) => {
+    const res = await request(
+      `${_apiBase}characters?limit=9&offset=${offset}&${_apiKey}`
     );
 
-    return res.data.results.map(this._transformCharacter);
+    return res.data.results.map(_transformCharacter);
   };
 
-  getCharacter = async (id) => {
-    const res = await this.getResource(
-      `${this._apiBase}characters/${id}?${this._apiKey}`
+  const getCharacter = async (id) => {
+    const res = await request(`${_apiBase}characters/${id}?${_apiKey}`);
+
+    return _transformCharacter(res.data.results[0]);
+  };
+
+  const getAllComics = async (offset = 0) => {
+    const res = await request(
+      `${_apiBase}/comics?limit=8&offset=${offset}&${_apiKey}`
     );
-    return this._transformCharacter(res.data.results[0]);
+    return res.data.results.map(_transformComics);
   };
 
-  _transformCharacter = (char) => {
+  const getComic = async (id) => {
+    const res = await request(`${_apiBase}comics/${id}?${_apiKey}`);
+
+    return _transformComics(res.data.results[0]);
+  };
+
+  const _transformComics = (comics) => {
+    return {
+      id: comics.id,
+      name: comics.title,
+      description: comics.description || 'No description',
+      pageCount: comics.pageCount || 'No information about the number of pages',
+      thumbnail: comics.thumbnail.path + '.' + comics.thumbnail.extension,
+      language: comics.textObjects.langauge || 'en-us',
+      price: comics.prices[0].price,
+    };
+  };
+
+  const _transformCharacter = (char) => {
     const transformDescription = (des) => {
       if (des) {
         return des.slice(0, 210) + '...';
@@ -48,6 +65,16 @@ class MarvelServices {
       comics: char.comics.items,
     };
   };
-}
 
-export default MarvelServices;
+  return {
+    loading,
+    error,
+    getAllCharacters,
+    getCharacter,
+    getAllComics,
+    getComic,
+    clearError,
+  };
+};
+
+export default useMarvelServices;

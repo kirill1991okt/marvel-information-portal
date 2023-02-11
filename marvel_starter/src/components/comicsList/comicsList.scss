@@ -1,36 +1,53 @@
 .comics {
-    &__list {
-        margin-top: 45px;
+  &__banner {
+    display: flex;
+    justify-content: space-around;
+    align-items: center;
+    background-color: #232222;
+
+    &-text {
+      width: 55%;
+      font-family: 'Roboto Condensed';
+      font-style: normal;
+      font-weight: 700;
+      font-size: 24px;
+      line-height: 28px;
+      color: #ffffff;
     }
-    &__grid {
-        display: grid;
-        grid-template-columns: repeat(auto-fill, 225px);
-        justify-content: space-between;
-        row-gap: 55px;
+  }
+
+  &__list {
+    margin-top: 45px;
+  }
+  &__grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, 225px);
+    justify-content: space-between;
+    row-gap: 55px;
+  }
+  &__item {
+    transition: 0.3s transform;
+    &-img {
+      box-shadow: 5px 5px 10px rgba(0, 0, 0, 0.25);
+      width: 225px;
+      height: 345px;
     }
-    &__item {
-        transition: 0.3s transform;
-        &-img {
-            box-shadow: 5px 5px 10px rgba(0, 0, 0, 0.25);
-            width: 225px;
-            height: 345px;
-        }
-        &-name {
-            margin-top: 10px;
-            font-weight: bold;
-            font-size: 14px;
-            line-height: 18px;
-        }
-        &-price {
-            margin-top: 5px;
-            font-weight: bold;
-            font-size: 14px;
-            line-height: 18px;
-            color: rgba(0, 0, 0, 0.6);
-            text-transform: uppercase;
-        }
-        &:hover {
-            transform: translateY(-5px);
-        }
+    &-name {
+      margin-top: 10px;
+      font-weight: bold;
+      font-size: 14px;
+      line-height: 18px;
     }
+    &-price {
+      margin-top: 5px;
+      font-weight: bold;
+      font-size: 14px;
+      line-height: 18px;
+      color: rgba(0, 0, 0, 0.6);
+      text-transform: uppercase;
+    }
+    &:hover {
+      transform: translateY(-5px);
+    }
+  }
 }
