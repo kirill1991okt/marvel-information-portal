@@ -55,6 +55,16 @@ const useMarvelServices = () => {
       }
     };
 
+    const findComicsID = (string) => {
+      console.log(string);
+      // if (string) {
+      //   const splitedString = string.split('/');
+      //   return +splitedString[splitedString.length - 1];
+      // } else {
+      //   return null;
+      // }
+    };
+
     return {
       id: char.id,
       name: char.name,
@@ -63,6 +73,7 @@ const useMarvelServices = () => {
       homepage: char.urls[0].url,
       wiki: char.urls[1].url,
       comics: char.comics.items,
+      // comicsId: findComicsID(char.comics.items),
     };
   };
 

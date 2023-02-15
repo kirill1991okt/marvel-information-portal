@@ -82,6 +82,20 @@ main {
   font-size: 24px;
 }
 
+.button-back{
+  display: block;
+  margin: 20px auto;
+  padding: 10px 5px; 
+  border: none;
+  background-color: #9F0013;
+  cursor: pointer;
+  min-width: 101px;
+  color: #fff;
+  text-align: center;
+  text-transform: uppercase;
+  font-size: 14px;
+}
+
 @keyframes pulse {
   0% {
     opacity: 1;

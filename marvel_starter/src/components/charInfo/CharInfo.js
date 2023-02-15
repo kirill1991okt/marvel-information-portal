@@ -1,4 +1,5 @@
 import { useState, useEffect } from 'react';
+import { Link } from 'react-router-dom';
 import PropTypes from 'prop-types';
 import useMarvelServices from '../../services/MarvelService';
 import ErrorMessage from '../errorMessage/ErrorMessage';
@@ -44,6 +45,7 @@ function CharInfo(props) {
 
 const View = ({ char }) => {
   const { name, description, thumbnail, homepage, wiki, comics } = char;
+  console.log(char);
   const comicsCutArr = comics.slice(0, 10);
   const incorrectImage = thumbnail
     .split('/')
@@ -73,10 +75,15 @@ const View = ({ char }) => {
       <ul className="char__comics-list">
         {comicsCutArr.length
           ? comicsCutArr.map((item, i) => {
+              const splitStr = item.resourceURI.split('/');
               return (
-                <li className="char__comics-item" key={i}>
+                <Link
+                  to={`/comics/${+splitStr[splitStr.length - 1]}`}
+                  className="char__comics-item"
+                  key={i}
+                >
                   {item.name}
-                </li>
+                </Link>
               );
             })
           : 'There is not comics'}
