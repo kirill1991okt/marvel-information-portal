@@ -1,5 +1,5 @@
 import ErrorMessage from '../errorMessage/ErrorMessage';
-import { Link, useNavigate } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
 
 import '../../style/style.scss';
 
@@ -9,8 +9,8 @@ const Page404 = () => {
   return (
     <div>
       <ErrorMessage />
-      <p className="error-text">Page dosen't exist</p>
-      <button onClick={goBack} className="button-back">
+      <p className='error-text'>Page dosen't exist</p>
+      <button onClick={goBack} className='button-back'>
         Go back
       </button>
     </div>

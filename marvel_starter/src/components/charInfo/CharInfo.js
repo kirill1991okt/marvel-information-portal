@@ -34,7 +34,7 @@ function CharInfo(props) {
   const spinner = loading ? <Spinner /> : null;
   const content = !(!char || loading || error) ? <View char={char} /> : null;
   return (
-    <div className="char__info">
+    <div className='char__info'>
       {skeleton}
       {errorMessage}
       {spinner}
@@ -45,41 +45,40 @@ function CharInfo(props) {
 
 const View = ({ char }) => {
   const { name, description, thumbnail, homepage, wiki, comics } = char;
-  console.log(char);
   const comicsCutArr = comics.slice(0, 10);
   const incorrectImage = thumbnail
     .split('/')
     .includes('image_not_available.jpg');
   return (
     <>
-      <div className="char__basics">
+      <div className='char__basics'>
         <img
           src={thumbnail}
           alt={name}
           style={incorrectImage ? { objectFit: 'fill' } : null}
         />
         <div>
-          <div className="char__info-name">{name}</div>
-          <div className="char__btns">
-            <a href={homepage} className="button button__main">
-              <div className="inner">homepage</div>
+          <div className='char__info-name'>{name}</div>
+          <div className='char__btns'>
+            <a href={homepage} className='button button__main'>
+              <div className='inner'>homepage</div>
             </a>
-            <a href={wiki} className="button button__secondary">
-              <div className="inner">Wiki</div>
+            <a href={wiki} className='button button__secondary'>
+              <div className='inner'>Wiki</div>
             </a>
           </div>
         </div>
       </div>
-      <div className="char__descr">{description}</div>
-      <div className="char__comics">Comics:</div>
-      <ul className="char__comics-list">
+      <div className='char__descr'>{description}</div>
+      <div className='char__comics'>Comics:</div>
+      <ul className='char__comics-list'>
         {comicsCutArr.length
           ? comicsCutArr.map((item, i) => {
               const splitStr = item.resourceURI.split('/');
               return (
                 <Link
                   to={`/comics/${+splitStr[splitStr.length - 1]}`}
-                  className="char__comics-item"
+                  className='char__comics-item'
                   key={i}
                 >
                   {item.name}

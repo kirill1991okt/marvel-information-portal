@@ -55,16 +55,6 @@ const useMarvelServices = () => {
       }
     };
 
-    const findComicsID = (string) => {
-      console.log(string);
-      // if (string) {
-      //   const splitedString = string.split('/');
-      //   return +splitedString[splitedString.length - 1];
-      // } else {
-      //   return null;
-      // }
-    };
-
     return {
       id: char.id,
       name: char.name,

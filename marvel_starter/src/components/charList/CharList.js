@@ -11,7 +11,6 @@ function CharList(props) {
   const [newItemLoading, setNewItemLoading] = useState(false);
   const [offset, setOffset] = useState(210);
   const [itemLoaded, setItemLoaded] = useState(false);
-
   const itemRefs = useRef([]);
 
   const { loading, error, getAllCharacters } = useMarvelServices();
@@ -50,7 +49,7 @@ function CharList(props) {
         <li
           ref={(el) => (itemRefs.current[i] = el)}
           tabIndex={0}
-          className="char__item"
+          className='char__item'
           key={id}
           onClick={() => {
             addClass(i);
@@ -63,29 +62,29 @@ function CharList(props) {
             }
           }}
         >
-          <img src={thumbnail} alt="abyss" />
-          <div className="char__name">{name}</div>
+          <img src={thumbnail} alt='abyss' />
+          <div className='char__name'>{name}</div>
         </li>
       );
     });
-    return <ul className="char__grid">{elements}</ul>;
+    return <ul className='char__grid'>{elements}</ul>;
   };
 
   const listItem = charItems(dataChar);
   const errorMessage = error ? <ErrorMessage /> : null;
   const spinner = loading && !newItemLoading ? <Spinner /> : null;
   return (
-    <div className="char__list">
+    <div className='char__list'>
       {errorMessage}
       {spinner}
       {listItem}
       <button
-        className="button button__main button__long"
+        className='button button__main button__long'
         disabled={newItemLoading}
         onClick={() => onRequest(offset)}
         style={{ display: itemLoaded ? 'none' : 'block' }}
       >
-        <div className="inner">load more</div>
+        <div className='inner'>load more</div>
       </button>
     </div>
   );
