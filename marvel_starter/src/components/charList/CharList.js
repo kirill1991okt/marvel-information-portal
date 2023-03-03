@@ -1,4 +1,5 @@
 import { useState, useEffect, useRef } from 'react';
+import { CSSTransition, TransitionGroup } from 'react-transition-group';
 import PropTypes from 'prop-types';
 import useMarvelServices from '../../services/MarvelService';
 import ErrorMessage from '../errorMessage/ErrorMessage';
@@ -46,45 +47,51 @@ function CharList(props) {
   const charItems = (arrList) => {
     const elements = arrList.map(({ thumbnail, name, id }, i) => {
       return (
-        <li
-          ref={(el) => (itemRefs.current[i] = el)}
-          tabIndex={0}
-          className='char__item'
-          key={id}
-          onClick={() => {
-            addClass(i);
-            props.updateIdChar(id);
-          }}
-          onKeyDown={(e) => {
-            if (e.key === ' ' || e.key === 'Enter') {
+        <CSSTransition timeout={400} classNames="char__item" key={id}>
+          <li
+            ref={(el) => (itemRefs.current[i] = el)}
+            tabIndex={0}
+            className="char__item"
+            // key={id}
+            onClick={() => {
               addClass(i);
               props.updateIdChar(id);
-            }
-          }}
-        >
-          <img src={thumbnail} alt='abyss' />
-          <div className='char__name'>{name}</div>
-        </li>
+            }}
+            onKeyDown={(e) => {
+              if (e.key === ' ' || e.key === 'Enter') {
+                addClass(i);
+                props.updateIdChar(id);
+              }
+            }}
+          >
+            <img src={thumbnail} alt="abyss" />
+            <div className="char__name">{name}</div>
+          </li>
+        </CSSTransition>
       );
     });
-    return <ul className='char__grid'>{elements}</ul>;
+    return (
+      <ul className="char__grid">
+        <TransitionGroup component={null}>{elements}</TransitionGroup>
+      </ul>
+    );
   };
 
   const listItem = charItems(dataChar);
   const errorMessage = error ? <ErrorMessage /> : null;
   const spinner = loading && !newItemLoading ? <Spinner /> : null;
   return (
-    <div className='char__list'>
+    <div className="char__list">
       {errorMessage}
       {spinner}
       {listItem}
       <button
-        className='button button__main button__long'
+        className="button button__main button__long"
         disabled={newItemLoading}
         onClick={() => onRequest(offset)}
         style={{ display: itemLoaded ? 'none' : 'block' }}
       >
-        <div className='inner'>load more</div>
+        <div className="inner">load more</div>
       </button>
     </div>
   );
