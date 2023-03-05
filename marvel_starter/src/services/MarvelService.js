@@ -34,6 +34,26 @@ const useMarvelServices = () => {
     return _transformComics(res.data.results[0]);
   };
 
+  const getCharacterByName = async (name) => {
+    const res = await request(`${_apiBase}characters?name=${name}&${_apiKey}`);
+
+    return _transformCharacterByName(res.data.results[0]);
+  };
+
+  const _transformCharacterByName = (char) => {
+    if (char) {
+      return {
+        name: char.name,
+        description: char.description || 'No description',
+        thumbnail: char.thumbnail.path + '.' + char.thumbnail.extension,
+      };
+    } else {
+      return {
+        error: 'The character was not found.',
+      };
+    }
+  };
+
   const _transformComics = (comics) => {
     return {
       id: comics.id,
@@ -41,29 +61,22 @@ const useMarvelServices = () => {
       description: comics.description || 'No description',
       pageCount: comics.pageCount || 'No information about the number of pages',
       thumbnail: comics.thumbnail.path + '.' + comics.thumbnail.extension,
-      language: comics.textObjects.langauge || 'en-us',
+      language: comics.textObjects.language || 'en-us',
       price: comics.prices[0].price,
     };
   };
 
   const _transformCharacter = (char) => {
-    const transformDescription = (des) => {
-      if (des) {
-        return des.slice(0, 210) + '...';
-      } else {
-        return 'Sorry, no character data';
-      }
-    };
-
     return {
       id: char.id,
       name: char.name,
-      description: transformDescription(char.description),
+      description: char.description
+        ? char.description.slice(0, 210) + '...'
+        : 'Sorry, no character data',
       thumbnail: char.thumbnail.path + '.' + char.thumbnail.extension,
       homepage: char.urls[0].url,
       wiki: char.urls[1].url,
       comics: char.comics.items,
-      // comicsId: findComicsID(char.comics.items),
     };
   };
 
@@ -74,6 +87,7 @@ const useMarvelServices = () => {
     getCharacter,
     getAllComics,
     getComic,
+    getCharacterByName,
     clearError,
   };
 };

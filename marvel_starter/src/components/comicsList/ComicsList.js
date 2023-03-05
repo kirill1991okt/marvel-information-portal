@@ -1,5 +1,6 @@
 import { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
+import { CSSTransition, TransitionGroup } from 'react-transition-group';
 import AppBanner from '../appBanner/AppBanner';
 import useMarvelServices from '../../services/MarvelService';
 import ErrorMessage from '../errorMessage/ErrorMessage';
@@ -38,17 +39,23 @@ const ComicsList = () => {
   const comicsItems = (dataComics) => {
     const elements = dataComics.map(({ id, thumbnail, name, price }, i) => {
       return (
-        <li className='comics__item' key={i}>
-          <Link to={`${id}`}>
-            <img src={thumbnail} alt={name} className='comics__item-img' />
-            <div className='comics__item-name'>{name}</div>
-            <div className='comics__item-price'>{price}$</div>
-          </Link>
-        </li>
+        <CSSTransition timeout={1000} className="comics__item" key={i}>
+          <li>
+            <Link to={`${id}`}>
+              <img src={thumbnail} alt={name} className="comics__item-img" />
+              <div className="comics__item-name">{name}</div>
+              <div className="comics__item-price">{price}$</div>
+            </Link>
+          </li>
+        </CSSTransition>
       );
     });
 
-    return <ul className='comics__grid'>{elements}</ul>;
+    return (
+      <ul className="comics__grid">
+        <TransitionGroup component={null}>{elements}</TransitionGroup>
+      </ul>
+    );
   };
 
   const listItems = comicsItems(comics);
@@ -58,17 +65,17 @@ const ComicsList = () => {
   return (
     <>
       <AppBanner />
-      <div className='comics__list'>
+      <div className="comics__list">
         {sniper}
         {errorMessage}
         {listItems}
         <button
-          className='button button__main button__long'
+          className="button button__main button__long"
           disabled={newItemLoading}
           onClick={() => onRequest(offset)}
           style={{ display: itemLoaded ? 'none' : 'block' }}
         >
-          <div className='inner'>load more</div>
+          <div className="inner">load more</div>
         </button>
       </div>
     </>
