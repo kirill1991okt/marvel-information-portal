@@ -15,17 +15,21 @@ const SingleNamePage = React.lazy(() =>
 
 function App() {
   return (
-    <Router>
-      <div className="app">
+    <Router basename='/marvel-information-portal'>
+      <div className='app'>
         <AppHeader />
         <main>
           <React.Suspense fallback={<Spinner />}>
             <Routes>
-              <Route path="/" element={<MainPage />} />
-              <Route path="/comics" element={<ComicsPage />} />
-              <Route path="/comics/:comicId" element={<SingleComicPage />} />
-              <Route path="characters/:charName" element={<SingleNamePage />} />
-              <Route path="*" element={<Page404 />} />
+              <Route
+                exact
+                path='/marvel-information-portal'
+                element={<MainPage />}
+              />
+              <Route path='/comics' element={<ComicsPage />} />
+              <Route path='/comics/:comicId' element={<SingleComicPage />} />
+              <Route path='characters/:charName' element={<SingleNamePage />} />
+              <Route path='*' element={<Page404 />} />
             </Routes>
           </React.Suspense>
         </main>
