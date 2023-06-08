@@ -21,11 +21,7 @@ function App() {
         <main>
           <React.Suspense fallback={<Spinner />}>
             <Routes>
-              <Route
-                exact
-                path='/marvel-information-portal'
-                element={<MainPage />}
-              />
+              <Route exact path='/' element={<MainPage />} />
               <Route path='/comics' element={<ComicsPage />} />
               <Route path='/comics/:comicId' element={<SingleComicPage />} />
               <Route path='characters/:charName' element={<SingleNamePage />} />
